@@ -1,0 +1,34 @@
+
+body {
+
+
+	/* counter-reset: row_id; */
+
+
+}
+
+
+.count {
+	position: relative;
+	color: rgb(0, 0, 0);
+}
+
+/*
+
+.goods__row {
+	position: relative;
+	color: rgb(23, 6, 175);
+}
+
+.goods__row::after {
+	position: absolute;
+	top: 8px;
+	left: 10px;
+	counter-increment: row_id;
+	content: counter(row_id);
+	color: rgb(0, 0, 0);
+	font-weight: 400;
+	
+}
+
+*/
