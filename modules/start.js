@@ -1,32 +1,36 @@
-import { base, getbtnsave } from "./base.js";
-import { getbtndel, getdonempost } from "./event.js";
+import { base, getbtnsave} from "./base.js";
+import { getbtndel, getdonempost, getcontediatable } from "./event.js";
+
 
 export const form = document.createElement('form');
 export const div = document.createElement('div');
 export const table = document.createElement('table');
 export const list = document.createElement('tbody');
+
 list.classList.add('find');
 
-const start = (app) => {
-	// base.users = [];
-	// console.log('base.users', base.users);
-	let username = 'Влад';
-	// const username = prompt('Введите ваше имя', 'Vlad');
-	base.user = username;
-	if(!base.users.includes(username)) {
-		base.users.push(username);
-	};
+
+
+
+
+
+
+export const start = (app) => {
 	
-	// base.check(3);
-	// base.addTodo(username, 'Привет мир!');
-	// console.log('base.users', base.users);
+	
 	createTitle(app);
+	
+	
 };
 
 
 
+
+
 const createTitle = (app) => {	
+
 	app.classList.add('vh-100', 'w-100', 'd-flex', 'align-items-center', 'justify-content-center', 'flex-column');
+
 	let todoTitle = document.createElement('h3');
 	todoTitle.innerHTML = 'Todo App';
 	app.append(todoTitle);
@@ -68,8 +72,9 @@ const createTable = (app, form) => {
 			<tr>
 				<th>№</th>
 				<th>Задача</th>
-				<th>Статус</th>
+				<th>Статус</th>				
 				<th>Действия</th>
+				<th>Важность</th>
 			</tr>
 		</thead>
 
@@ -86,10 +91,13 @@ const createTable = (app, form) => {
 		
 	table.append(list);
 	div.append(table);
-
-	getbtnsave(form);	
+	
+	getbtnsave(form)
+	// getbtnsave(form, app);	
 	getbtndel(form, list, div);
 	getdonempost(form, list, div);
+	getcontediatable(list);
+	// getvalue(list);
 };
 
 
