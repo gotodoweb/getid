@@ -87,7 +87,7 @@ export const getbtnsave = (form) => {
 				
 		const todoTr = createTodo(objTodo);
 		list.append(todoTr);
-		
+		getid();
 
 		// console.log('base.todo.length', base.todo.length);
 		form[1].setAttribute('disabled', 'true');
@@ -99,7 +99,7 @@ export const getbtnsave = (form) => {
 };
 
 
-function getid() {
+export function getid() {
 	let allid = document.querySelectorAll('.count');
 	allid.forEach((item, i) => item.textContent = i + 1);
 
@@ -129,9 +129,10 @@ function createTodo(objTodo) {
 	tr.classList.add('table-light');
 	tr.innerHTML = todoItem;
 	
-	getid();
+	
 	return tr;
 };
+
 
 
 

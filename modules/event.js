@@ -1,5 +1,6 @@
 import { form, div, table, list } from "./start.js";
 import { base }  from "./base.js";
+import { getid } from "./base.js";
 
 export const getbtndel = (form, list, div) => {
 
@@ -7,17 +8,18 @@ export const getbtndel = (form, list, div) => {
 		event.preventDefault();
 		const nbtn = event.target.closest('.btn.btn-danger');
 		const trdel = event.target.closest('tr');
-		// console.log('trdel', trdel);
+		
 		if (nbtn) {
 
 			trdel.remove();
-			document.querySelectorAll('.goods__row').forEach((item, i) => item.textContent = i);
+			// document.querySelectorAll('.count').forEach((item, i) => item.textContent = i + 1);
+			getid();
 		}
 		
 	}
 
 	list.addEventListener('click', delTodo);
-}
+};
 
 
 
