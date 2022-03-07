@@ -7,8 +7,125 @@ import { getTodoLS, setTodoLS } from "./local.js";
 const findlist = document.querySelector('.find');
 
 
-let username = prompt('Name?', 'Vlad');
+// let username = prompt('Name?', 'Vlad');
 
+let username = 'User';
+
+let newform = document.querySelector('.app-container');
+let formnew = `
+
+		<div class="popup__bg active">
+			<form class="popup active">
+				<svg class="close-popup" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#2982ff" d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/></svg>
+				<label>
+					<input type="text" name="name" id="tratata">
+					<div class="label__text">
+						Ваше имя
+					</div>
+				</label>
+				<label>
+					<input type="tel" name="tel">
+					<div class="label__text">
+						Ваш телефон
+					</div>
+				</label>
+				<label>
+					<textarea name="message"></textarea>
+					<div class="label__text">
+						Ваше сообщение
+					</div>
+				</label>
+				<button type="submit" class='fd'>Отправить</button>
+			</form>
+		</div>  
+
+`
+const newforma = document.createElement('div');
+newforma.innerHTML = formnew;
+
+newform.append(newforma);
+
+
+
+let uname = newforma.querySelector('[name="name"]');
+
+let popupBg = document.querySelector('.popup__bg');
+let popup = document.querySelector('.popup');
+console.log('popup : ', popup);
+
+let openPopupButtons = document.querySelectorAll('.open-popup');
+let closePopupButton = document.querySelector('.close-popup');
+
+// openPopupButtons.forEach((button) => {
+// 	button.addEventListener('click', (e) => {
+// 		e.preventDefault();
+
+// 		popupBg.classList.add('active');
+// 		popup.classList.add('active');
+		
+
+// 	})
+// });
+
+closePopupButton.addEventListener('click', () => {
+	popupBg.classList.remove('active');
+	popup.classList.remove('active');
+
+
+
+	setTodoLS();
+
+});
+
+document.addEventListener('click', (e) => {
+	if (e.target === popupBg) {
+		popupBg.classList.remove('active');
+		popup.classList.remove('active');
+
+
+
+		setTodoLS();
+	}
+});
+
+
+
+
+popup.addEventListener('submit', e => {
+	e.preventDefault();
+
+	const formData = new FormData(e.target);
+
+
+	// console.log([...formData.entries()]);
+
+	const datanew = Object.fromEntries(formData);
+	console.log('datanew222: ', datanew.name);
+
+	username = datanew.name;
+	base.newuser = datanew.name;
+	console.log('base.user0', base.user);
+	setTodoLS();
+
+
+
+
+
+
+
+
+	// console.log('username', username);
+
+	// const data = {};
+	// for (const [name, value] of formData) {
+	// 	console.log(name, value);
+	// }
+
+	// userData(JSON.stringify(Object.fromEntries(formData)));
+	// userData(datanew.name);
+	// getbtnsave(form, username)
+	newforma.innerHTML = '';
+});
 
 
 export const getuserName = () => {
@@ -17,24 +134,21 @@ export const getuserName = () => {
 
 
 
+
 export const base = {
-	user: username,
+	user: '',	
+	set newuser(nam) {
+		this.user = nam;
+		console.log('nam from newuser', this.user);
+		setTodoLS();		
+	},
 	todo: getTodoLS(),
-	setid(id) {
-		for (let i = 0; i < base.todo.length; i++) {
-			if (base.todo[i].id == id) {				
-				// console.log('id from check(id)', id);
-				setTodoLS();
-			}
-		};
-	},	
 	check(id) {
 		for (let i = 0; i < base.todo.length; i++) {
 			if (base.todo[i].id == id) {
 				base.todo[i].ready = 'Выполнена';
 				// console.log('id from check(id)', id);
 				setTodoLS();
-			
 			}
 		};
 	},
@@ -50,7 +164,7 @@ export const base = {
 	addTodo(post) {
 		// getTodoLS(username);
 		const todo = {
-			id: base.todo.length + 1,
+			id: Math.random().toString().substring(2, 7),
 			author: this.user,
 			post: post,
 			ready: 'В процессе',
@@ -131,13 +245,11 @@ export const getbtnsave = (form) => {
 
 };
 
-
 export function getid() {
 	let allid = document.querySelectorAll('.count');
 	allid.forEach((item, i) => item.textContent = i + 1);
-	// allid.forEach((item, i) => base.setid(i));
+	setTodoLS();
 };
-
 
 
 
@@ -166,7 +278,6 @@ function createTodo(objTodo) {
 			`;
 	const tr = document.createElement('tr');
 	tr.innerHTML = todoItem;
-
 	// tr.classList = "";
 	// tr.classList.add('begin');
 	if (objTodo.ready === 'Выполнена') {
@@ -179,7 +290,6 @@ function createTodo(objTodo) {
 
 		totasknext.nextSibling.classList.add('text-decoration-line-through');
 	};
-
 	
 	if (objTodo.ready === 'В процессе') {
 		// tr.classList = "";
@@ -240,6 +350,7 @@ export function createMyForm(objTodo) {
 			</form>
 		`;
 
+
 	};
 
 	if (`${objTodo.priority}` === 'важная') {
@@ -268,6 +379,7 @@ export function createMyForm(objTodo) {
 			</form>
 		`;
 
+
 	};
 
 
@@ -279,7 +391,7 @@ export function createMyForm(objTodo) {
 
 		for (var i = 0; i < btnform.length; i++) {
 			if (btnform[i].previousElementSibling.value === 'обычная') {
-
+		
 				let remont = e.target.tagName;
 				
 				if(remont === 'SELECT') {
@@ -304,7 +416,7 @@ export function createMyForm(objTodo) {
 				}
 
 			} else if (btnform[i].previousElementSibling.value === 'важная') {
-
+				
 				let remontka = e.target.tagName;
 				if (remontka === 'SELECT') {
 					console.log('remontka: ', remontka);
@@ -327,6 +439,7 @@ export function createMyForm(objTodo) {
 
 
 			} else if (btnform[i].previousElementSibling.value === 'срочная') {
+				
 				let peremotka = e.target.tagName;
 				if (peremotka === 'SELECT') {
 					console.log('peremotka: ', peremotka);
@@ -380,7 +493,7 @@ function renderTodo(list) {
 
 			// todoLi.appendChild(createMyForm(base.todo[i].priority));
 			list.append(todoLi);
-			getid();
+			// getid();
 		};
 	}
 

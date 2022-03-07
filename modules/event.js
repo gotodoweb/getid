@@ -9,34 +9,39 @@ export const getbtndel = (form, list, div) => {
 		event.preventDefault();
 		const nbtn = event.target.closest('.btn.btn-danger');
 		const trdel = event.target.closest('tr');
-
+		// console.log('trdel', trdel);
 		var re = event.target.tagName;
-		console.log('re: ', re);
+		
 		if ((re === 'BUTTON') && (nbtn)) {
+
 			const result = confirm('Вы хотите удалить задачу?');
 			if (result) {
-				let first = event.target.closest('tr');				
+				let first = event.target.closest('tr');
+				// console.log('first', first);
 				let num = (first.firstElementChild);
+				// console.log('num', Number(num.innerHTML));
+
 				let idd = Number(num.innerHTML);
 				console.log('id который удалять:', idd);
+
+				// let num2 = (num.nextSibling);
+				// console.log('num2', num2);
+				// const post = (num2.nextSibling.innerHTML).getTodoLS();
+				// console.log('post', post);
+
 				trdel.remove();
-				getid();
-			// document.querySelectorAll('.count').forEach((item, i) => item.textContent = i + 1);
-				
-			
-				
-				let newdata = base.todo.filter(el => el.id != idd);
-				
-				base.todo = newdata;
+
+				let newdata = base.todo.filter(el => el.id != base.todo[idd - 1].id);
+
 				console.log('newdata', newdata);
-				
+				base.todo = newdata;
+
 				setTodoLS();
-				
-				
+				// console.log('base.todo', base.todo);
+				getid();
 			}
+
 		}
-		setTodoLS();
-		
 
 	};
 
