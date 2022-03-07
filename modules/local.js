@@ -13,13 +13,13 @@ export const getTodoLS = () => {
 
 	for (let key in localStorage) {
 		if (localStorage.hasOwnProperty(getuserName())) {
-			console.log('getuserName()', getuserName());
+			console.log('getuserName()1', getuserName());
 			
-			// console.log('base.fullName', base.fullName);
+			
 			if (localStorage.getItem(getuserName())) {
 				// return JSON.parse(localStorage.getItem(getuserName())).sort(sortByField('priority'));
-				
-
+			
+				console.log('getuserName()2', getuserName());
 				return JSON.parse(localStorage.getItem(getuserName()));
 			}
 		} else {

@@ -11,12 +11,15 @@ const findlist = document.querySelector('.find');
 
 let username = 'User';
 
+
+
+
 let newform = document.querySelector('.app-container');
 let formnew = `
 
 		<div class="popup__bg active">
 			<form class="popup active">
-				<svg class="close-popup" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#2982ff" d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/></svg>
+				<svg class="close-popup" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24"><path fill="#2982ff" d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/></svg>
 				<label>
 					<input type="text" name="name" id="tratata">
 					<div class="label__text">
@@ -65,14 +68,16 @@ let closePopupButton = document.querySelector('.close-popup');
 		
 
 // 	})
+
 // });
+
+
 
 closePopupButton.addEventListener('click', () => {
 	popupBg.classList.remove('active');
 	popup.classList.remove('active');
 
-
-
+	
 	setTodoLS();
 
 });
@@ -82,8 +87,7 @@ document.addEventListener('click', (e) => {
 		popupBg.classList.remove('active');
 		popup.classList.remove('active');
 
-
-
+	
 		setTodoLS();
 	}
 });
@@ -96,36 +100,23 @@ popup.addEventListener('submit', e => {
 
 	const formData = new FormData(e.target);
 
-
 	// console.log([...formData.entries()]);
 
 	const datanew = Object.fromEntries(formData);
-	console.log('datanew222: ', datanew.name);
-
+	console.log('datanew333: ', datanew.name);
+	// getTodoLS();
 	username = datanew.name;
+
+	console.log(username);
 	base.newuser = datanew.name;
-	console.log('base.user0', base.user);
+	console.log('base.user', base.user);
 	setTodoLS();
 
 
-
-
-
-
-
-
-	// console.log('username', username);
-
-	// const data = {};
-	// for (const [name, value] of formData) {
-	// 	console.log(name, value);
-	// }
-
-	// userData(JSON.stringify(Object.fromEntries(formData)));
-	// userData(datanew.name);
-	// getbtnsave(form, username)
 	newforma.innerHTML = '';
 });
+
+console.log('username', username);
 
 
 export const getuserName = () => {
@@ -134,13 +125,12 @@ export const getuserName = () => {
 
 
 
-
 export const base = {
 	user: '',	
 	set newuser(nam) {
 		this.user = nam;
 		console.log('nam from newuser', this.user);
-		setTodoLS();		
+		// setTodoLS();		
 	},
 	todo: getTodoLS(),
 	check(id) {
@@ -182,8 +172,6 @@ export const base = {
 
 	
 };
-
-
 
 
 
@@ -493,7 +481,7 @@ function renderTodo(list) {
 
 			// todoLi.appendChild(createMyForm(base.todo[i].priority));
 			list.append(todoLi);
-			// getid();
+			getid();
 		};
 	}
 
