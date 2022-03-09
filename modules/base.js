@@ -54,22 +54,12 @@ let uname = newforma.querySelector('[name="name"]');
 
 let popupBg = document.querySelector('.popup__bg');
 let popup = document.querySelector('.popup');
-console.log('popup : ', popup);
+
 
 let openPopupButtons = document.querySelectorAll('.open-popup');
 let closePopupButton = document.querySelector('.close-popup');
 
-// openPopupButtons.forEach((button) => {
-// 	button.addEventListener('click', (e) => {
-// 		e.preventDefault();
 
-// 		popupBg.classList.add('active');
-// 		popup.classList.add('active');
-		
-
-// 	})
-
-// });
 
 
 
@@ -77,7 +67,6 @@ closePopupButton.addEventListener('click', () => {
 	popupBg.classList.remove('active');
 	popup.classList.remove('active');
 
-	
 	setTodoLS();
 
 });
@@ -87,7 +76,6 @@ document.addEventListener('click', (e) => {
 		popupBg.classList.remove('active');
 		popup.classList.remove('active');
 
-	
 		setTodoLS();
 	}
 });
@@ -103,20 +91,59 @@ popup.addEventListener('submit', e => {
 	// console.log([...formData.entries()]);
 
 	const datanew = Object.fromEntries(formData);
-	console.log('datanew333: ', datanew.name);
-	// getTodoLS();
-	username = datanew.name;
 
-	console.log(username);
+
+	username = datanew.name;
+	console.log(datanew.name);
 	base.newuser = datanew.name;
-	console.log('base.user', base.user);
+
+	// getTodoLS();
+	// setTodoLS();
+
+
+	if (localStorage.hasOwnProperty(datanew.name)) {
+		list.innerHTML = `<tbody class="find"></tbody>`;
+		// base.todo = [];
+		// setTodoLS();
+		// renderTodo(list);
+
+		// return JSON.parse(localStorage.getItem(getuserName())).sort(sortByField('priority'));
+
+		base.todo = JSON.parse(localStorage.getItem(datanew.name));
+		console.log('base.todo', base.todo);
+
+
+		console.log('list', list);
+
+
+		if (base.todo) {
+			for (let i = 0; i < base.todo.length; i++) {
+				// console.log('base.todo[i]', base.todo[i].priority);
+				const todoLi = createTodo(base.todo[i]);
+
+				todoLi.appendChild(createMyForm(base.todo[i]));
+
+				list.append(todoLi);
+				getid();
+			};
+		} 
+
+
+	} else {
+		base.todo = [];
+		list.innerHTML = `
+		<tbody>
+
+			
+		</tbody>
+	`;
+	}
 	setTodoLS();
 
 
 	newforma.innerHTML = '';
 });
 
-console.log('username', username);
 
 
 export const getuserName = () => {
@@ -126,7 +153,7 @@ export const getuserName = () => {
 
 
 export const base = {
-	user: '',	
+	user: '',
 	set newuser(nam) {
 		this.user = nam;
 		console.log('nam from newuser', this.user);
@@ -162,15 +189,14 @@ export const base = {
 		};
 		// console.log('base.todo.priority', base.todo.priority);
 		base.todo.push(todo);
-		// console.log('todo from addTodo', base.todo);
-		// return base.todo[base.todo.length - 1];
+
 		setTodoLS();
-		// console.log("priority from addTodo", todo.priority);
+
 
 		return todo;
 	},
 
-	
+
 };
 
 
@@ -179,8 +205,7 @@ export const base = {
 
 export const getbtnsave = (form) => {
 
-	// base.user = usname;
-	
+
 	function clearTodo(event) {
 		form[1].setAttribute('disabled', 'true');
 	};
@@ -189,7 +214,7 @@ export const getbtnsave = (form) => {
 	btnclear.addEventListener('click', clearTodo);
 
 	function checkTodo(event) {
-		// console.log('click');
+
 		form[1].removeAttribute('disabled');
 	};
 
@@ -203,18 +228,17 @@ export const getbtnsave = (form) => {
 		e.preventDefault();
 
 		const authorText = base.user;
-		
+
 		const postText = form[0].value;
-		// console.log(postText.length);
+
 		const readyText = 'В процессе';
 
 
 		const objTodo = base.addTodo(postText);
-		// console.log('objTodo',objTodo.priority);
-		// console.log('base.todo', base.todo);
+
 
 		const todoTr = createTodo(objTodo);
-		// console.log('todoTr: ', todoTr);
+
 
 		const fnew = createMyForm(objTodo, list);
 		todoTr.appendChild(fnew);
@@ -222,7 +246,7 @@ export const getbtnsave = (form) => {
 		list.append(todoTr);
 		getid();
 
-		// console.log('base.todo.length', base.todo.length);
+
 		form[1].setAttribute('disabled', 'true');
 		form.reset();
 
@@ -266,22 +290,20 @@ function createTodo(objTodo) {
 			`;
 	const tr = document.createElement('tr');
 	tr.innerHTML = todoItem;
-	// tr.classList = "";
-	// tr.classList.add('begin');
+
 	if (objTodo.ready === 'Выполнена') {
 		tr.classList = "";
 		tr.classList.add('table-success');
 
 		let tdtask = tr.firstElementChild;
 		let totasknext = tdtask.nextSibling;
-		console.log('totasknext: ', totasknext);
+
 
 		totasknext.nextSibling.classList.add('text-decoration-line-through');
 	};
-	
+
 	if (objTodo.ready === 'В процессе') {
-		// tr.classList = "";
-		// tr.classList.add('begin');
+
 		if (`${objTodo.priority}` === 'обычная') {
 
 			tr.classList = '';
@@ -303,7 +325,7 @@ function createTodo(objTodo) {
 
 	};
 
-	
+
 
 	return tr;
 
@@ -311,7 +333,7 @@ function createTodo(objTodo) {
 
 export function createMyForm(objTodo) {
 	const myform = document.createElement('td');
-	// console.log('objTodo.priority', objTodo.priority, objTodo);
+
 
 	myform.innerHTML = `
 		<form class="my-form" name="f1" > 
@@ -379,11 +401,11 @@ export function createMyForm(objTodo) {
 
 		for (var i = 0; i < btnform.length; i++) {
 			if (btnform[i].previousElementSibling.value === 'обычная') {
-		
+
 				let remont = e.target.tagName;
-				
-				if(remont === 'SELECT') {
-					console.log('remont: ', remont);
+
+				if (remont === 'SELECT') {
+
 					getTodoLS();
 					btnform[i].value = 'обычная';
 
@@ -393,7 +415,7 @@ export function createMyForm(objTodo) {
 					btnform[i].style.backgroundColor = "white";
 
 					let gettr = btnform[i].closest('tr');;
-					// console.log('gettr: ', gettr);
+
 					let gettrue = gettr.classList.contains('table-success');
 					if (!gettrue) {
 						gettr.classList = "";
@@ -404,14 +426,13 @@ export function createMyForm(objTodo) {
 				}
 
 			} else if (btnform[i].previousElementSibling.value === 'важная') {
-				
+
 				let remontka = e.target.tagName;
 				if (remontka === 'SELECT') {
-					console.log('remontka: ', remontka);
+
 					getTodoLS();
 					btnform[i].value = 'важная';
 
-					// console.log('base.todo[i].priority from getvalue1', base.todo[i].priority);
 					base.todo[i].priority = 'важная';
 					setTodoLS();
 					btnform[i].style.backgroundColor = "yellow";
@@ -427,15 +448,13 @@ export function createMyForm(objTodo) {
 
 
 			} else if (btnform[i].previousElementSibling.value === 'срочная') {
-				
+
 				let peremotka = e.target.tagName;
 				if (peremotka === 'SELECT') {
-					console.log('peremotka: ', peremotka);
+
 					getTodoLS();
 					btnform[i].value = 'срочная';
 
-
-					// console.log('base.todo[i].priority from getvalue1', base.todo[i].priority);
 					base.todo[i].priority = 'срочная';
 					setTodoLS();
 					btnform[i].style.backgroundColor = "red";
@@ -468,18 +487,16 @@ export function createMyForm(objTodo) {
 
 
 function renderTodo(list) {
-	// getTodoLS(username);
+
 	getTodoLS();
 
 	if (base.todo) {
 		for (let i = 0; i < base.todo.length; i++) {
 			// console.log('base.todo[i]', base.todo[i].priority);
 			const todoLi = createTodo(base.todo[i]);
-			// console.log('todoLi from renderTodo', todoLi);
-			// todoLi.appendChild(createMyForm());
+
 			todoLi.appendChild(createMyForm(base.todo[i]));
 
-			// todoLi.appendChild(createMyForm(base.todo[i].priority));
 			list.append(todoLi);
 			getid();
 		};
